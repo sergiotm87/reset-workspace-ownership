@@ -1,0 +1,28 @@
+name: 'Test'
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+      - name: 'Create test file and change ownership'
+        run: |
+          mkdir -p test-dir
+          touch test-dir/test-file
+          sudo chown -R 0:0 test-dir
+      - name: 'Run the action'
+        uses: ./
+        with:
+          path: 'test-dir'
+          uid: '1001'
+      - name: 'Verify ownership'
+        run: |
+          stat -c '%u' test-dir | grep 1001
+          stat -c '%u' test-dir/test-file | grep 1001

@@ -1,0 +1,12 @@
+name: 'Reset Workspace Ownership'
+description: 'Ensures correct workspace ownership for self-hosted runners'
+inputs:
+  path:
+    description: 'The path to the directory to reset ownership on'
+    required: true
+  uid:
+    description: 'The user ID to set as the owner'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
